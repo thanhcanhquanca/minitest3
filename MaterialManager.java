@@ -6,6 +6,7 @@ import java.util.List;
 public class MaterialManager {
     private List<Material> materials = new ArrayList<>();
 
+    // khởi tạo 5 đối tượng thịt và bột chiên dòn
     public void createSampleMaterials() {
         materials.add(new CrispyFlour("CF1", "Bột A", LocalDate.now(), 5000, 2));
         materials.add(new CrispyFlour("CF2", "Bột B", LocalDate.now(), 6000, 3));
@@ -20,14 +21,18 @@ public class MaterialManager {
         materials.add(new Meat("M5", "Thịt Cá", LocalDate.now(), 22000, 1.8));
     }
 
+    // thêm vật liệu mới
     public void addMaterial(Material material) {
         materials.add(material);
     }
 
+    // xóa vật liệu
   public void removeMaterial(String id){
         materials.removeIf(material -> material.getId().equals(id));
   }
 
+
+    // cập nhập thông tin vật liệu
     boolean isUpdated = false;
     public void updataMaterial(String id, String newName, LocalDate newExpiryDate, int newCost){
         for (Material material : materials) {
@@ -53,6 +58,7 @@ public class MaterialManager {
         }
     }
 
+    // Tính tổng số tiền sau chiết khấu
     public double getTotalDiscountedAmount(){
         double total = 0;
         for (Material material : materials) {
@@ -63,6 +69,7 @@ public class MaterialManager {
         return total;
     }
 
+    //Tính tổng số tiền
     public double getTotalAmount(){
         double total = 0;
         for (Material material : materials) {
@@ -73,11 +80,13 @@ public class MaterialManager {
     }
 
 
+    // sắp xếp theo chi phí int xắp xếp giảm dần
     public void sortByCost(){
         materials.sort((m1, m2) -> Integer.compare(m2.getCost(), m1.getCost()));
 
     }
 
+    // hiển hị giao diện materials
     public void displayMaterials() {
         for (Material material : materials) {
             System.out.println(material.getId() + " - " + material.getName() + " - "
@@ -88,31 +97,38 @@ public class MaterialManager {
 
     public static void main(String[] args) {
         MaterialManager manager = new MaterialManager();
+
+        // khởi tạo 5 đối tượng
         manager.createSampleMaterials();
-
-
         System.out.println("Danh sách vật liệu ban đầu:");
         manager.displayMaterials();
 
+
+        //  thêm vật liệu
         Material newMaterial = new CrispyFlour("CF6", "Bột F", LocalDate.now(), 10000, 2);
         manager.addMaterial(newMaterial);
         System.out.println("Danh sách vật liệu sau khi thêm:");
         manager.displayMaterials();
 
+        // cập nhập thông tin
         manager.updataMaterial("CF1", "Bột G", LocalDate.now().plusDays(10), 5500);
         System.out.println("Danh sách vật liệu sau khi sửa:");
         manager.displayMaterials();
 
+        // xóa vật liệu
         manager.removeMaterial("M1");
         System.out.println("Danh sách vật liệu sau khi xóa:");
         manager.displayMaterials();
 
+        // tổng tiền chưa chiết khấu
         double totalAmount = manager.getTotalAmount();
         System.out.println("Tổng số tiền chưa chiết khấu: " + totalAmount);
 
+        // tổng tiền sau chiết khấu
         double totalDiscountedAmount = manager.getTotalDiscountedAmount();
         System.out.println("Tổng số tiền sau chiết khấu: " + totalDiscountedAmount);
 
+        // sắp xếp theo giảm dần
         manager.sortByCost();
         System.out.println("Danh sách vật liệu sau khi sắp xếp theo giá (giảm dần):");
         manager.displayMaterials();
